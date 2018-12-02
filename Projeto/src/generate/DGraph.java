@@ -98,8 +98,11 @@ public class DGraph{
 	}
 
 	public int numEdges() {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		for(int i=0; i<this.d;i++) {
+			count = count + parents(i).length;
+	}
+		return count;
 	}
 
 }
