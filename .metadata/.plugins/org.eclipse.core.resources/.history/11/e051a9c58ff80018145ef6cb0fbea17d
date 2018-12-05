@@ -36,14 +36,9 @@ public class GeneratePromela{
 		
 		//Write the promela file:
 		PrintWriter writer = new PrintWriter("BGP.txt", "UTF-8");
-		//For each edge create a channel. Each channel sends a pair with elected value and path to reach the target.
+		//For each edge create a channel. Each channel is a pair with elected value and path to reach the traget:
 		for(int i=0; i < numvertex; i++) {
-			int [] pais = G.parents(i);
-			for(int j=0;j<pais.length;j++) {
-				writer.printf("chan c%d%d = [1] of {byte,byte}",i,j); 
-				// O canal cxy e de x para y, porque ha uma aresta de y para x.
-				// O segundo byte e tipo: o caminho 1->2->3 e representado pelo numero 123. (nao ha problemas porque o 0 e o target)
-				}
+			
 		}
 		writer.println("The first line");
 		writer.println("The second line");

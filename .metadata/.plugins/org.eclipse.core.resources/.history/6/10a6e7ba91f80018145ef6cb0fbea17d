@@ -43,7 +43,7 @@ public class GeneratePromela{
 				writer.printf("chan c%d%d = [1] of {byte,byte}",i,j); 
 				// O canal cxy e de x para y, porque ha uma aresta de y para x.
 				// O segundo byte e tipo: o caminho 1->2->3 e representado pelo numero 123. (nao ha problemas porque o 0 e o target)
-				}
+			}
 		}
 		writer.println("The first line");
 		writer.println("The second line");
