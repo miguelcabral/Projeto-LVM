@@ -45,13 +45,6 @@ public class GeneratePromela{
 				// O segundo byte e tipo: o caminho 1->2->3 e representado pelo numero 123. (nao ha problemas porque o 0 e o target)
 				}
 		}
-		
-		//processo do target:
-		writer.println("active proctype n0(){");
-		for(int i=1; i<numvertex; i++) {
-			int cost = Contract[0][i];
-		writer.printf("c0%d ! %d",i,cost);
-		}
 		writer.println("The first line");
 		writer.println("The second line");
 		writer.close();
