@@ -50,14 +50,18 @@ public class GeneratePromela{
 		writer.println("active proctype n0(){");
 		for(int i=1; i<numvertex; i++) {
 			int cost = Contract[0][i];
-		writer.printf("c0%d ! %d",i,cost);
+			writer.printf("c0%d ! %d",i,cost);
 		}
-		writer.println("The first line");
-		writer.println("The second line");
+		
+		//processo dos vertices		
+		for(int i=1; i<numvertex; i++) {
+			writer.printf("chan t%d = [1] of byte \n",i);
+			writer.println("active proctype t() { ");
+			writer.printf("t0!%d; \n",Contract[0][i]); 
+			writer.println("}");
+		}
+		
 		writer.close();
 		
-		
-		
-	
 	}
 }
