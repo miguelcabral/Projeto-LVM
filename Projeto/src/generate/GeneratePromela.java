@@ -48,7 +48,7 @@ public class GeneratePromela{
 		
 		//processo do target:
 		writer.println("active proctype n0(){");
-		for(int i=1; i<numvertex; i++) {
+		for(int i=1; i<numvertex; i++) { 
 			int cost = Contract[0][i]; 
 			writer.printf("c0%d ! %d",i,cost);
 		}
