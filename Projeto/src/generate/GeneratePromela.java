@@ -34,30 +34,39 @@ public class GeneratePromela{
 		//once finished
 		reader.close();
 		
-		//Write the promela file:
+		//Write the promela file
 		PrintWriter writer = new PrintWriter("BGP.txt", "UTF-8");
 		//For each edge create a channel. Each channel sends a pair with elected value and path to reach the target.
 		for(int i=0; i < numvertex; i++) {
 			int [] pais = G.parents(i);
 			for(int j=0;j<pais.length;j++) {
-				writer.printf("chan c%d%d = [1] of {byte,byte}",i,j); 
+				writer.printf("chan c%d%d = [1] of {byte,byte state[%d]};",i,j,numvertex); 
 				// O canal cxy e de x para y, porque ha uma aresta de y para x.
 				// O segundo byte e tipo: o caminho 1->2->3 e representado pelo numero 123. (nao ha problemas porque o 0 e o target)
 				}
 		}
 		
-		//processo do target:
+		//processo do target
 		writer.println("active proctype n0(){");
 		for(int i=1; i<numvertex; i++) { 
-			int cost = Contract[0][i]; 
-			writer.printf("c0%d ! %d",i,cost);
+			int cost = Contract[0][i];
+			writer.printf("byte state[%d] path;",numvertex);
+			writer.printf("atomic{path[0]=1; c0%d ! %d, path }",i,cost);
 		}
+		writer.println("}");
 		
-		//processo dos vertices		
+		//processo dos outros vertices		
 		for(int i=1; i<numvertex; i++) {
-		// Os canais já estão todos criados antes dos processos. writer.printf("chan t%d = [1] of byte \n",i);
-			writer.println("active proctype t() { ");
-			writer.printf("t0!%d; \n",Contract[0][i]); 
+			writer.printf("active proctype n%d() { ",i);
+			writer.println("byte x;");
+			writer.printf("byte state[%d] path;",numvertex);
+			int[] children = G.children(i);
+			writer.println("if");
+			for( int j = 0; j<children.length; j++) {
+				writer.printf(, args);
+			}
+			writer.println("fi");
+			writer.printf("c0%d ? x, path;",i); 
 			writer.println("}");
 		}
 		
