@@ -55,7 +55,7 @@ public class GeneratePromela{
 		
 		//processo dos vertices		
 		for(int i=1; i<numvertex; i++) {
-		// Os canais já estão todos criados antes dos processos. writer.printf("chan t%d = [1] of byte \n",i);
+			writer.printf("chan t%d = [1] of byte \n",i);
 			writer.println("active proctype t() { ");
 			writer.printf("t0!%d; \n",Contract[0][i]); 
 			writer.println("}");
