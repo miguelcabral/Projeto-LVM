@@ -49,17 +49,24 @@ public class GeneratePromela{
 		//processo do target
 		writer.println("active proctype n0(){");
 		for(int i=1; i<numvertex; i++) { 
-			int cost = Contract[0][i]; 
-			writer.printf("c0%d ! %d ;",i,cost);
+			int cost = Contract[0][i];
+			writer.printf("atomic{path[0]=1; c0%d ! %d, path }",i,cost);
 		}
 		writer.println("}");
 		
 		//processo dos outros vertices		
 		for(int i=1; i<numvertex; i++) {
-		// Os canais já estão todos criados antes dos processos. writer.printf("chan t%d = [1] of byte \n",i);
 			writer.printf("active proctype n%d() { ",i);
-			writer.println("byte x");
-			writer.printf("c0%d ? ;",Contract[0][i]); 
+			writer.println("byte x;");
+			writer.printf("byte state[%d] paths;",numvertex);
+			writer.printf("byte state[%d] costs", arg1)
+			int[] children = G.children(i);
+			writer.println("if");
+			for( int j = 0; j<children.length; j++) {
+				writer.printf("ds", args);
+			}
+			writer.println("fi");
+			writer.printf("c0%d ? x, path;",i); 
 			writer.println("}");
 		}
 		

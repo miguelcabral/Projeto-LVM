@@ -40,7 +40,7 @@ public class GeneratePromela{
 		for(int i=0; i < numvertex; i++) {
 			int [] pais = G.parents(i);
 			for(int j=0;j<pais.length;j++) {
-				writer.printf("chan c%d%d = [1] of {byte,byte state[%d]};",i,j,numvertex); 
+				writer.printf("chan c%d%d = [1] of {byte,byte};",i,j); 
 				// O canal cxy e de x para y, porque ha uma aresta de y para x.
 				// O segundo byte e tipo: o caminho 1->2->3 e representado pelo numero 123. (nao ha problemas porque o 0 e o target)
 				}
@@ -50,7 +50,6 @@ public class GeneratePromela{
 		writer.println("active proctype n0(){");
 		for(int i=1; i<numvertex; i++) { 
 			int cost = Contract[0][i];
-			writer.printf("byte state[%d] path;",numvertex);
 			writer.printf("atomic{path[0]=1; c0%d ! %d, path }",i,cost);
 		}
 		writer.println("}");
@@ -59,11 +58,12 @@ public class GeneratePromela{
 		for(int i=1; i<numvertex; i++) {
 			writer.printf("active proctype n%d() { ",i);
 			writer.println("byte x;");
-			writer.printf("byte state[%d] path;",numvertex);
+			writer.printf("byte state[%d] paths;",numvertex);
+			writer.printf("byte state[%d] costs", numvertex);
 			int[] children = G.children(i);
 			writer.println("if");
 			for( int j = 0; j<children.length; j++) {
-				writer.printf(, args);
+				writer.printf("ds", args);
 			}
 			writer.println("fi");
 			writer.printf("c0%d ? x, path;",i); 
