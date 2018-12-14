@@ -105,16 +105,4 @@ public class DGraph{
 		return count;
 	}
 
-	// A fazer:
-	// 1. Funcao que calcula todos os possiveis caminhos sem loops desde o target ate ao no que estamos a considerar i.
-	// 2. Continuar esses caminhos com todos os possíveis loops contendo i. - uma funcao
-	// 3. Transposta do grafo (por causa dos canais)
-	// A funcao que usa as anteriores para devolver todos os caminhos que comecam no target e vao ate ao no i (sem loops) e depois fazem um loop contendo i.
-	// (no final tem de se retirar o nó i do final do caminho, porque no BGP o no i recebe esse caminho com excecao dele proprio.)
-	
-	public LinkedList<Integer> AllCyclesContaining (int origem){
-		LinkedList<Integer> lista = new LinkedList<Integer>();
-		return lista;
-	}
-	
 }
