@@ -107,7 +107,7 @@ public class GeneratePromela{
 					writer.println(" 			if");
 					writer.printf(" 				:: costs[electNode] > costs[%d] -> electNode = %d;",currentChild,currentChild);
 					// enviar nao-deterministicamente para um no pai
-					writer.printf("", args);
+					writer.printf(format, args);
 					writer.println(" 			fi");
 				}
 

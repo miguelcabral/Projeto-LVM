@@ -102,12 +102,10 @@ public class GeneratePromela{
 						}*/
 						// Caso em que o path e aceite:
 					
-					writer.printf(" 		:: x == %d -> costs[%d] = %d;",currentChild,oldcost,currentChild,newcost);
+					writer.printf(" 		:: x == %d -> costs[%d] = %d;",children.get(k),oldcost,children.get(k),newcost);
 					// Verificar se o minimo do array costs foi alterado
 					writer.println(" 			if");
-					writer.printf(" 				:: costs[electNode] > costs[%d] -> electNode = %d;",currentChild,currentChild);
-					// enviar nao-deterministicamente para um no pai
-					writer.printf("", args);
+					writer.printf(" 				:: costs[electNode] > costs[%d] -> break",numvertex);
 					writer.println(" 			fi");
 				}
 

@@ -66,13 +66,12 @@ public class GeneratePromela{
 			// Receber do canal de algum dos vertices filhos de i.
 			LinkedList<Integer> children = G.children(i);
 			for( int k = 0; k < children.size(); k++) { 
-				int currentChild = children.get(k);
-				writer.printf(" 	:: c%d%d ? x, path;", currentChild, i);
+				writer.printf(" 	:: c%d%d ? x, path;", children.get(k), i);
 				writer.println(" 		if");
 				// Perguntar o contrato entre os dois nos
 			//	LinkedList<int[]> contrato = new LinkedList<int[]>(); // E uma lista de pares: (x,y) - Se o custo recebido e x, passa a ser y.
 				for(int n = 0; n < Custos.size(); n++) {
-					System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para %d é %d.", i,currentChild, Custos.get(n));
+					System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para %d é %d.", i,children.get(k), Custos.get(n));
 					// Imprimir os custos possiveis (variavel Custos) numa string
 					String possiveis = new String();
 					for(int p = 0; p < Custos.size(); p++) {
@@ -102,12 +101,10 @@ public class GeneratePromela{
 						}*/
 						// Caso em que o path e aceite:
 					
-					writer.printf(" 		:: x == %d -> costs[%d] = %d;",currentChild,oldcost,currentChild,newcost);
+					writer.printf(" 		:: x == %d -> costs[%d] = %d;",children.get(k),oldcost,children.get(k),newcost);
 					// Verificar se o minimo do array costs foi alterado
 					writer.println(" 			if");
-					writer.printf(" 				:: costs[electNode] > costs[%d] -> electNode = %d;",currentChild,currentChild);
-					// enviar nao-deterministicamente para um no pai
-					writer.printf("", args);
+					writer.printf(" 				:: x >= %d -> break",numvertex);
 					writer.println(" 			fi");
 				}
 

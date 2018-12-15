@@ -106,8 +106,7 @@ public class GeneratePromela{
 					// Verificar se o minimo do array costs foi alterado
 					writer.println(" 			if");
 					writer.printf(" 				:: costs[electNode] > costs[%d] -> electNode = %d;",currentChild,currentChild);
-					// enviar nao-deterministicamente para um no pai
-					writer.printf("", args);
+					
 					writer.println(" 			fi");
 				}
 
