@@ -102,11 +102,8 @@ public class GeneratePromela{
 						// Caso em que o path e aceite:
 					
 					writer.printf(" 		:: x == %d -> costs[%d] = %d;",children.get(k),oldcost,children.get(k),newcost);
-					writer.println(" 			x = 0;");
-					// calcular o minimo com um while que percorre o array costs
+					writer.println(" 			x = 0;"); // calcular o minimo
 					writer.println(" 			do");
-					writer.printf(" 				:: x >= %d -> break",numvertex);
-					writer.println(" 			od");
 				}
 
 				writer.println(" 		fi");

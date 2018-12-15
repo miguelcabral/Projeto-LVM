@@ -105,7 +105,7 @@ public class GeneratePromela{
 					writer.println(" 			x = 0;");
 					// calcular o minimo com um while que percorre o array costs
 					writer.println(" 			do");
-					writer.printf(" 				:: x >= %d -> break",numvertex);
+					writer.println(" 				:: x >= ");
 					writer.println(" 			od");
 				}
 
