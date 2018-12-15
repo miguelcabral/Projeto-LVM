@@ -68,7 +68,7 @@ public class GeneratePromela{
 				writer.printf(" 	:: c%d%d ? x, path;", children.get(k), i);
 				writer.println(" 		if");
 				// Perguntar o contrato entre os dois nos
-			//	LinkedList<int[]> contrato = new LinkedList<int[]>(); // E uma lista de pares: (x,y) - Se o custo recebido e x, passa a ser y.
+				LinkedList<int[]> contrato = new LinkedList<int[]>(); // E uma lista de pares: (x,y) - Se o custo recebido e x, passa a ser y.
 				for(int n = 0; n < Custos.size(); n++) {
 					System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para %d é %d.", i,children.get(k), Custos.get(n));
 					// Imprimir os custos possiveis (variavel Custos) numa string
@@ -80,10 +80,10 @@ public class GeneratePromela{
 							+ "Insira o custo aqui: ", possiveis);
 					int newcost = reader.nextInt();
 					int oldcost = Custos.get(n);
-				/*	int[] par = new int[2];
+					int[] par = new int[2];
 					par[0] = oldcost;
 					par[1] = newcost;
-					contrato.add(par);*/
+					contrato.add(par);
 					//1. verificar o path
 					
 					/*	loops = generateLoops(i);
@@ -101,7 +101,7 @@ public class GeneratePromela{
 						// Caso em que o path e aceite:
 						// Calcular o novo custo atraves do contrato
 					
-					writer.printf(" 		:: costs[%d] == %d && %d < %d -> ",children.get(k),oldcost,newcost,oldcost);
+					writer.printf(" 		:: costs[%d] == %d -> ",children.get(k),oldcost,newcost);
 				}
 
 				writer.println(" 		fi");
