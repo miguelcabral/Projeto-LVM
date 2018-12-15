@@ -61,7 +61,6 @@ public class GeneratePromela{
 			writer.println("byte path;");// path received/sent
 			writer.printf("byte state[%d] paths;",numvertex);// array of paths 
 			writer.printf("byte state[%d] costs;", numvertex); // costs for adjacent nodes
-			writer.println("byte min;"); // auxiliary variable to determine the minimum of array costs
 			writer.println("do");
 			// Receber do canal de algum dos vertices filhos de i.
 			LinkedList<Integer> children = G.children(i);
@@ -100,13 +99,7 @@ public class GeneratePromela{
 					// Caso em que o path nao e aceite:
 					writer.println("if"); // Se ele era o no mais barato entao tem de se ver qual e o mais barato a seguir dele.
 					writer.printf(" 	:: electNode == %d -> ", i);
-					// determinar um outro 'minimo' - percorrer o array costs
-					writer.println(" 		x = 1;");
-					writer.println(" 		min = costs[0];");
-					writer.println(" 		do");
-					writer.printf(" 			:: x >= %d -> break",numvertex);
-					writer.printf(" 			:: costs[x] < min && x!=%d -> min = costs[x]; electNode",i);
-					writer.println(" 		od");
+					
 					writer.println("fi");
 
 					
