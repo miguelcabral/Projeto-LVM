@@ -135,7 +135,7 @@ public class GeneratePromela{
 				System.out.printf("Os valores possiveis sao: %d %n"
 						+ "Insira o custo aqui: ", possiveis);
 				int cost = reader.nextInt();
-				writer.printf("c0%d ! %d, 0;", pais[j],cost);
+				writer.printf(, pais[j]);
 			}
 				}
 		}
