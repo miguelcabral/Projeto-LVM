@@ -57,11 +57,10 @@ public class GeneratePromela{
 			// criar os processos dos vertices que nao sao o target
 			writer.printf("active proctype n%d() { ",i);
 			writer.println("byte electNode;");// elected node
-			writer.println("byte x;");// cost received
-			writer.println("byte path;");// path received 
+			writer.println("byte x;");// cost received/sent
+			writer.println("byte path;");// path received/sent
 			writer.printf("byte state[%d] paths;",numvertex);// array of paths 
 			writer.printf("byte state[%d] costs;", numvertex); // costs for adjacent nodes
-			writer.println("byte electAux;");// auxiliary variable to determine the minimum of array costs
 			writer.println("do");
 			// Receber do canal de algum dos vertices filhos de i.
 			LinkedList<Integer> children = G.children(i);
@@ -82,10 +81,6 @@ public class GeneratePromela{
 							+ "Insira o custo aqui: ", possiveis);
 					int newcost = reader.nextInt();
 					int oldcost = Custos.get(n);
-				/*	int[] par = new int[2];
-					par[0] = oldcost;
-					par[1] = newcost;
-					contrato.add(par);*/
 					//1. verificar o path
 					
 					/*	loops = generateLoops(i);
@@ -100,14 +95,23 @@ public class GeneratePromela{
 					        
 							}
 						}*/
-						// Caso em que o path e aceite:
+					
+					// Caso em que o path nao e aceite:
+					
+					// Caso em que o path e aceite:
 					
 					writer.printf(" 		:: x == %d -> costs[%d] = %d;",currentChild,oldcost,currentChild,newcost);
 					// Verificar se o minimo do array costs foi alterado
 					writer.println(" 			if");
 					writer.printf(" 				:: costs[electNode] > costs[%d] -> electNode = %d;",currentChild,currentChild);
-					// enviar nao-deterministicamente para um no pai
-					writer.printf("", args);
+					//Alterar o path e enviar nao-deterministicamente para um no pai
+					writer.printf(" 				path = path * 10 + %d;",i);
+					writer.println(" 					if");
+					int[] pais = G.parents(i);
+					for(int j =0; j < pais.length; j++) {
+						writer.printf(" 						:: c%d%d ! costs[electNode], path;",i,pais[j]);
+					}
+ 					writer.println(" 					fi");
 					writer.println(" 			fi");
 				}
 
@@ -118,7 +122,21 @@ public class GeneratePromela{
 		writer.println("od");
 			
 		}else {// criar o processo do Target 
-			
+			writer.println("active proctype n0() { ");
+			String possiveis = new String();
+			for(int p = 0; p < Custos.size(); p++) {
+				possiveis = possiveis + ", " + Custos.get(p);
+				}
+			// enviar para todos os nos que sao pais do target
+			int[] pais = G.parents(0);
+			for(int j = 1; j < pais.length; j++) {	
+				System.out.printf("Insira o custo de %d aceder ao target diretamente.",j);
+				// Imprimir os custos possiveis (variavel Custos) numa string
+				System.out.printf("Os valores possiveis sao: %d %n"
+						+ "Insira o custo aqui: ", possiveis);
+				int cost = reader.nextInt();
+				writer.printf(, pais[j]);
+			}
 				}
 		}
 		
@@ -127,7 +145,6 @@ public class GeneratePromela{
 		writer.close();	
 		}
 
-			
 							
 		/**
 	 	* Returns all the shifts of a word e.g. abc becomes abc, bca, cab
