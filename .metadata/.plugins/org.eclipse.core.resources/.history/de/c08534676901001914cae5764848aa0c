@@ -102,7 +102,7 @@ public class GeneratePromela{
 				else {
 					// Perguntar o contrato entre os dois nos (porque nenhum deles e o target)
 					for(int n = 0; n < Custos.size(); n++) {
-						System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para este ultimo e %d. %n", i,currentChild, Custos.get(n));
+						System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para este último é %d. %n", i,currentChild, Custos.get(n));
 						// Imprimir os custos possiveis (variavel Custos) numa string
 						String possiveis = new String();
 						for(int p = 0; p < Custos.size(); p++) {

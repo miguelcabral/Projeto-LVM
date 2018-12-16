@@ -61,7 +61,7 @@ public class GeneratePromela{
 						// O path x_1 -> ... -> x_n e o numero x_n...x_1.
 						}
 				}
-		// Criar os processos (um para cada vertice de G)
+		
 		for(int i=0; i < numvertex; i++) {
 			
 		if ( i > 0){
@@ -100,18 +100,14 @@ public class GeneratePromela{
 					writer.println(" 			fi");
 				}
 				else {
-					// Perguntar o contrato entre os dois nos (porque nenhum deles e o target)
+					// Perguntar o contrato entre os dois nos (se nenhum deles e o target)
 					for(int n = 0; n < Custos.size(); n++) {
-						System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para este ultimo e %d. %n", i,currentChild, Custos.get(n));
+						System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para este último é %d. %n", i,currentChild, Custos.get(n));
 						// Imprimir os custos possiveis (variavel Custos) numa string
 						String possiveis = new String();
 						for(int p = 0; p < Custos.size(); p++) {
-							if(p == 0) {
-								possiveis = Integer.toString(Custos.get(p));
-							}else {
-								possiveis = possiveis + ", " + Custos.get(p);
+							possiveis = possiveis + ", " + Custos.get(p);
 							}
-						}
 						System.out.printf("Os valores possiveis sao: %s %n", possiveis);
 						System.out.println("Insira o custo aqui: ");
 						int newcost = reader.nextInt();
@@ -160,7 +156,7 @@ public class GeneratePromela{
 						// Caso em que o path e aceite:
 						writer.println(" 		else ->");
 						writer.println(" 		if");
-						writer.printf(" 		:: x == %d -> costs[%d] = %d;",oldcost,currentChild,newcost);
+						writer.printf(" 		:: x == %d -> costs[%d] = %d;",currentChild,oldcost,currentChild,newcost);
 						// Verificar se o minimo do array costs foi alterado
 						writer.println(" 			if");
 						writer.printf(" 				:: costs[electNode] > costs[%d] -> electNode = %d;",currentChild,currentChild);
@@ -190,19 +186,19 @@ public class GeneratePromela{
 			
 		}else {// criar o processo do Target 
 			writer.println("active proctype n0() { ");
+			String possiveis = new String();
+			for(int p = 0; p < Custos.size(); p++) {
+				if(p == 0) {
+					possiveis = Integer.toString(Custos.get(p));
+				}else {
+					possiveis = possiveis + ", " + Custos.get(p);
+				}
+			}
 			// enviar para todos os nos que sao pais do target
 			int[] pais = G.parents(0);
 			for(int j = 0; j < pais.length; j++) {	
 				System.out.printf("Insira o custo de %d aceder ao target diretamente.%n",pais[j]);
 				// Imprimir os custos possiveis (variavel Custos) numa string
-				String possiveis = new String();
-				for(int p = 0; p < Custos.size(); p++) {
-					if(p == 0) {
-						possiveis = Integer.toString(Custos.get(p));
-					}else {
-						possiveis = possiveis + ", " + Custos.get(p);
-					}
-				}
 				System.out.printf("Os valores possiveis sao: %s %n", possiveis);
 				System.out.println("Insira o custo aqui: ");
 				int cost = reader.nextInt();
