@@ -87,7 +87,7 @@ public class GeneratePromela{
 					writer.println(" 		costs[0] = x;");
 					// Verificar se o minimo do array costs foi alterado
 					writer.println(" 			if");
-					writer.println(" 				:: costs[electNode] > costs[0] -> electNode = 0;");
+					writer.printf(" 				:: costs[electNode] > costs[0] -> electNode = 0;",currentChild,currentChild);
 					//Alterar o path e enviar nao-deterministicamente para um no pai
 					writer.printf(" 					path = %d * 10;",i);
 					writer.println(" 					if");
