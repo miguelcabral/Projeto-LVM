@@ -83,7 +83,6 @@ public class GeneratePromela{
 			for( int k = 0; k < children.size(); k++) { 
 				int currentChild = children.get(k);
 				writer.printf(" 	:: c%d%d ? x, path;", currentChild, i);
-				// Receber do target e um processo diferente (nao ha contrato e o path e sempre aceite)
 				if(currentChild == 0) {
 					writer.println(" 		costs[0] = x;");
 					// Verificar se o minimo do array costs foi alterado
