@@ -39,6 +39,7 @@ public class GeneratePromela{
 				Custos.add(Character.getNumericValue(StringCustos.charAt(j)));
 				}
 			}
+		
 		// Criar o ficheiro em PROMELA
 		PrintWriter writer = new PrintWriter("BGP.pml", "UTF-8");
 		
@@ -87,58 +88,43 @@ public class GeneratePromela{
 					for(int p = 0; p < allPaths.size(); p++) {
 						LinkedList<Integer> pathList = allPaths.get(p);
 						int pathInt = 0;
-						for(int m = 0; m < pathList.size(); m++) {
+						for(int m = 0; m < pathList.size()-1/* -1 para retirar o ultimo no (o repetido)*/; m++) {
 							pathInt = pathInt + pathList.get(m)*10^m;
 						}
-						
+						writer.printf(" 		:: path == %d -> ", pathInt);
+						// Caso em que o path nao e aceite:
+						writer.println( 		"if"); // Se ele era o no mais barato entao tem de se ver qual e o mais barato a seguir dele.
+						writer.printf(" 			:: electNode == %d -> ", i);
+						// determinar um outro 'minimo' - percorrer o array costs
+						writer.println(" 			x = 1;");
+						writer.println(" 			min = costs[0];");
+						writer.println(" 			do");
+						writer.printf(" 				:: x >= %d -> break",numvertex);
+						writer.printf(" 				:: costs[x] < min && x!=%d -> min = costs[x]; electNode = x; x = x+1",i);
+						writer.println(" 				:: x = x+1");
+						writer.println(" 			od");
+						writer.println(" 		fi");
+						writer.println(" 		if");
+						writer.printf(" 			:: electNode != %d -> path = paths[electNode];", i,i);
+						// Alterar o path 
+						writer.println(" 					x = 0;"); // x e um counter que determina o tamanho do caminho path
+						writer.println(" 					min = path;"); // Aqui min e so uma variavel auxiliar que nada tem a ver com o valor minimo
+						writer.println(" 					do");
+						writer.println(" 						:: min == 0 -> break");
+						writer.println(" 						:: min = (min - (min % 10))/10; x = x+1");
+						writer.println(" 					od");
+						writer.printf(" 					path = %d * 10^x + path;",i);
+						// Enviar nao-deterministicamente para um no pai
+						writer.println(" 			if");
+						int[] pais = G.parents(i);
+						for(int j =0; j < pais.length; j++) {
+							writer.printf(" 			:: c%d%d ! costs[electNode], path",i,pais[j]);
+						}
+						writer.println(" 			fi");
+						writer.println( 		"fi");
 					}
-					writer.println(" 	fi");
-					/*	loops = generateLoops(i);
-
-						for ( int t = 0; t < loops.size(); t++) {
-							String aux = String.valueOf(loops.get(t));
-							int [ loops.get(t)).length()] lista;
-						
-							for(int p = 0; p < String.valueOf(loops.get(t)).length(); p++){
-								aux = shift(aux);
-								lista[p] = aux;
-					        
-							}
-						}*/
-					
-					// Caso em que o path nao e aceite:
-					writer.println( 	"if"); // Se ele era o no mais barato entao tem de se ver qual e o mais barato a seguir dele.
-					writer.printf(" 	:: electNode == %d -> ", i);
-					// determinar um outro 'minimo' - percorrer o array costs
-					writer.println(" 		x = 1;");
-					writer.println(" 		min = costs[0];");
-					writer.println(" 		do");
-					writer.printf(" 			:: x >= %d -> break",numvertex);
-					writer.printf(" 			:: costs[x] < min && x!=%d -> min = costs[x]; electNode = x; x = x+1",i);
-					writer.println(" 			:: x = x+1");
-					writer.println(" 		od");
-					writer.println(" 	fi");
-					writer.println(" 	if");
-					writer.printf(" 	:: electNode != %d -> path = paths[electNode];", i,i);
-					// Alterar o path 
-					writer.println(" 					x = 0;"); // x e um counter que determina o tamanho do caminho path
-					writer.println(" 					min = path;"); // Aqui min e so uma variavel auxiliar que nada tem a ver com o valor minimo
-					writer.println(" 					do");
-					writer.println(" 						:: min == 0 -> break");
-					writer.println(" 						:: min = (min - (min % 10))/10; x = x+1");
-					writer.println(" 					od");
-					writer.printf(" 					path = %d * 10^x + path",i);
-					// Enviar nao-deterministicamente para um no pai
-					writer.println(" 			if");
-					int[] pais = G.parents(i);
-					for(int j =0; j < pais.length; j++) {
-						writer.printf(" 			:: c%d%d ! costs[electNode], path;",i,pais[j]);
-					}
-					writer.println(" 			fi");
-					writer.println( 	"fi");
-				
-					
 					// Caso em que o path e aceite:
+					writer.println(" 		else ->");
 					writer.println(" 		if");
 					writer.printf(" 		:: x == %d -> costs[%d] = %d;",currentChild,oldcost,currentChild,newcost);
 					// Verificar se o minimo do array costs foi alterado
@@ -153,17 +139,17 @@ public class GeneratePromela{
 					writer.println(" 					od");
 					writer.printf(" 					path = %d * 10^x + path",i);
 					writer.println(" 					if");
-					pais = G.parents(i);
+					int[] pais = G.parents(i);
 					for(int j =0; j < pais.length; j++) {
 						writer.printf(" 						:: c%d%d ! costs[electNode], path;",i,pais[j]);
 					}
  					writer.println(" 					fi");
 					writer.println(" 			fi");
-				}
-
+					
 					writer.println(" 		fi");
-				
-				
+					writer.println(" 	fi");
+			
+				}				
 			}
 		writer.println("od");
 			
@@ -190,6 +176,33 @@ public class GeneratePromela{
 		reader.close();	
 		writer.close();	
 		}
+
+
+	// FIM
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*	loops = generateLoops(i);
+
+	for ( int t = 0; t < loops.size(); t++) {
+		String aux = String.valueOf(loops.get(t));
+		int [ loops.get(t)).length()] lista;
+	
+		for(int p = 0; p < String.valueOf(loops.get(t)).length(); p++){
+			aux = shift(aux);
+			lista[p] = aux;
+        
+		}
+	}*/
+
 
 							
 		/**
