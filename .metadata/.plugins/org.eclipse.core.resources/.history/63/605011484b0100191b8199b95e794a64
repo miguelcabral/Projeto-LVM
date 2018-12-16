@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -22,10 +21,10 @@ public class GeneratePromela{
 		DGraph G = new DGraph(numvertex); // The first node is always the target	 
 		
 		for(int i=0; i < numvertex; i++) {
-			System.out.printf("O vertice %d tem arestas para outros vertices? (1 para sim e 0 para nao): ", i);
-			int resposta = reader.nextInt();
-			if(resposta == 1) {
-				System.out.printf("O vertice %d tem arestas para os vertices: ", i);
+			System.out.printf("O vertice %d tem arestas para outros vertices? (sim ou nao): ", i);
+			String resposta = reader.next();
+			if(resposta == "sim") {
+				System.out.printf("O vertice %d tem arestas para os vertices:", i);
 				String edges = reader.next(); // Scans the next token of the input as an int.
 				
 				for(int j=0; j < edges.length(); j++) {
@@ -36,7 +35,7 @@ public class GeneratePromela{
 			}
 			}
 		// Perguntar os valores de custo possiveis (nao tem de ser necessariamente {0,1,...,numvertex})
-		System.out.println("Insira os valores possiveis dos custos dos contratos: ");
+		System.out.println("Insira os valores possiveis dos custos dos contratos:");
 		String StringCustos = reader.next();
 		LinkedList<Integer> Custos = new LinkedList<Integer>();
 		for(int j=0; j < StringCustos.length(); j++) {
@@ -77,14 +76,14 @@ public class GeneratePromela{
 				writer.printf(" 	:: c%d%d ? x, path;", currentChild, i);
 				// Perguntar o contrato entre os dois nos
 				for(int n = 0; n < Custos.size(); n++) {
-					System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para este último é %d. %n", i,currentChild, Custos.get(n));
+					System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para este último é %d.", i,currentChild, Custos.get(n));
 					// Imprimir os custos possiveis (variavel Custos) numa string
 					String possiveis = new String();
 					for(int p = 0; p < Custos.size(); p++) {
 						possiveis = possiveis + ", " + Custos.get(p);
 						}
-					System.out.printf("Os valores possiveis sao: %s %n", possiveis);
-					System.out.println("Insira o custo aqui: ");
+					System.out.printf("Os valores possiveis sao: %d %n"
+							+ "Insira o custo aqui: ", possiveis);
 					int newcost = reader.nextInt();
 					int oldcost = Custos.get(n);
 					// Verificar o path
@@ -162,19 +161,15 @@ public class GeneratePromela{
 			writer.println("active proctype n0() { ");
 			String possiveis = new String();
 			for(int p = 0; p < Custos.size(); p++) {
-				if(p == 0) {
-					possiveis = Integer.toString(Custos.get(p));
-				}else {
-					possiveis = possiveis + ", " + Custos.get(p);
+				possiveis = possiveis + ", " + Custos.get(p);
 				}
-			}
 			// enviar para todos os nos que sao pais do target
-			int[] pais = G.parents(0); System.out.printf("%s %n",Arrays.toString(pais));
+			int[] pais = G.parents(0);
 			for(int j = 1; j < pais.length; j++) {	
-				System.out.printf("Insira o custo de %d aceder ao target diretamente.%n",j);
+				System.out.printf("Insira o custo de %d aceder ao target diretamente.",j);
 				// Imprimir os custos possiveis (variavel Custos) numa string
-				System.out.printf("Os valores possiveis sao: %s %n", possiveis);
-				System.out.println("Insira o custo aqui: ");
+				System.out.printf("Os valores possiveis sao: %d %n"
+						+ "Insira o custo aqui: ", possiveis);
 				int cost = reader.nextInt();
 				writer.printf("c0%d ! %d, 0;", pais[j],cost);
 			}

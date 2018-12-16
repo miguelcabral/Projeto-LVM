@@ -163,7 +163,7 @@ public class GeneratePromela{
 			String possiveis = new String();
 			for(int p = 0; p < Custos.size(); p++) {
 				if(p == 0) {
-					possiveis = Integer.toString(Custos.get(p));
+					
 				}else {
 					possiveis = possiveis + ", " + Custos.get(p);
 				}

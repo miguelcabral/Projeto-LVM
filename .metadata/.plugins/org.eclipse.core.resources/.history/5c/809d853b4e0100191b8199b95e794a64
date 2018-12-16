@@ -162,12 +162,8 @@ public class GeneratePromela{
 			writer.println("active proctype n0() { ");
 			String possiveis = new String();
 			for(int p = 0; p < Custos.size(); p++) {
-				if(p == 0) {
-					possiveis = Integer.toString(Custos.get(p));
-				}else {
-					possiveis = possiveis + ", " + Custos.get(p);
+				possiveis = possiveis + ", " + Custos.get(p);
 				}
-			}
 			// enviar para todos os nos que sao pais do target
 			int[] pais = G.parents(0); System.out.printf("%s %n",Arrays.toString(pais));
 			for(int j = 1; j < pais.length; j++) {	
