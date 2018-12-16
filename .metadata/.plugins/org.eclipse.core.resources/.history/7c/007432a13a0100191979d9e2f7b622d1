@@ -84,15 +84,6 @@ public class GeneratePromela{
 					// Verificar o path
 					ArrayList<LinkedList<Integer>> allPaths = G.printAllPaths(0,i);
 					writer.println(" 	if");
-					for(int p = 0; p < allPaths.size(); p++) {
-						LinkedList<Integer> pathList = allPaths.get(p);
-						int pathInt = 0;
-						for(int m = 0; m < pathList.size(); m++) {
-							pathInt = pathInt + pathList.get(m)*10^m;
-						}
-						
-					}
-					writer.println(" 	fi");
 					/*	loops = generateLoops(i);
 
 						for ( int t = 0; t < loops.size(); t++) {

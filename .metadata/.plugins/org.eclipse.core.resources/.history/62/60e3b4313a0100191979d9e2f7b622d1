@@ -157,10 +157,5 @@ public class DGraph{
 			LinkedList<Integer> lista = new LinkedList<Integer>();
 			return lista;
 		}
-
-		public ArrayList<LinkedList<Integer>> printAllPaths(int i, int i2) {
-			// TODO Auto-generated method stub
-			return null;
-		}
 	
 }

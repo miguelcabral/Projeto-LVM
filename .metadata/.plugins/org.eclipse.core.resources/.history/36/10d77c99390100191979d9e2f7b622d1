@@ -82,17 +82,9 @@ public class GeneratePromela{
 					int newcost = reader.nextInt();
 					int oldcost = Custos.get(n);
 					// Verificar o path
-					ArrayList<LinkedList<Integer>> allPaths = G.printAllPaths(0,i);
-					writer.println(" 	if");
-					for(int p = 0; p < allPaths.size(); p++) {
-						LinkedList<Integer> pathList = allPaths.get(p);
-						int pathInt = 0;
-						for(int m = 0; m < pathList.size(); m++) {
-							pathInt = pathInt + pathList.get(m)*10^m;
-						}
-						
-					}
-					writer.println(" 	fi");
+					
+					ArrayList<LinkedList<Integer>> allPaths = printAllPaths(0,i,numvertex,G);
+					
 					/*	loops = generateLoops(i);
 
 						for ( int t = 0; t < loops.size(); t++) {
@@ -192,6 +184,12 @@ public class GeneratePromela{
 		}
 
 							
+		private static ArrayList<LinkedList<Integer>> printAllPaths(int i, int i2, int numvertex, DGraph g) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 		/**
 	 	* Returns all the shifts of a word e.g. abc becomes abc, bca, cab
 	 	* int s = vertex

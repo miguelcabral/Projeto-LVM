@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -71,7 +70,7 @@ public class GeneratePromela{
 				writer.printf(" 	:: c%d%d ? x, path;", currentChild, i);
 				// Perguntar o contrato entre os dois nos
 				for(int n = 0; n < Custos.size(); n++) {
-					System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para este último é %d.", i,currentChild, Custos.get(n));
+					System.out.printf("Insira o custo de %d aceder o target usando %d quando o custo para %d é %d.", i,currentChild, Custos.get(n));
 					// Imprimir os custos possiveis (variavel Custos) numa string
 					String possiveis = new String();
 					for(int p = 0; p < Custos.size(); p++) {
@@ -81,18 +80,8 @@ public class GeneratePromela{
 							+ "Insira o custo aqui: ", possiveis);
 					int newcost = reader.nextInt();
 					int oldcost = Custos.get(n);
-					// Verificar o path
-					ArrayList<LinkedList<Integer>> allPaths = G.printAllPaths(0,i);
-					writer.println(" 	if");
-					for(int p = 0; p < allPaths.size(); p++) {
-						LinkedList<Integer> pathList = allPaths.get(p);
-						int pathInt = 0;
-						for(int m = 0; m < pathList.size(); m++) {
-							pathInt = pathInt + pathList.get(m)*10^m;
-						}
-						
-					}
-					writer.println(" 	fi");
+					//1. verificar o path
+					
 					/*	loops = generateLoops(i);
 
 						for ( int t = 0; t < loops.size(); t++) {
@@ -107,7 +96,7 @@ public class GeneratePromela{
 						}*/
 					
 					// Caso em que o path nao e aceite:
-					writer.println( 	"if"); // Se ele era o no mais barato entao tem de se ver qual e o mais barato a seguir dele.
+					writer.println("if"); // Se ele era o no mais barato entao tem de se ver qual e o mais barato a seguir dele.
 					writer.printf(" 	:: electNode == %d -> ", i);
 					// determinar um outro 'minimo' - percorrer o array costs
 					writer.println(" 		x = 1;");
@@ -117,8 +106,8 @@ public class GeneratePromela{
 					writer.printf(" 			:: costs[x] < min && x!=%d -> min = costs[x]; electNode = x; x = x+1",i);
 					writer.println(" 			:: x = x+1");
 					writer.println(" 		od");
-					writer.println(" 	fi");
-					writer.println(" 	if");
+					writer.println("fi");
+					writer.println("if");
 					writer.printf(" 	:: electNode != %d -> path = paths[electNode];", i,i);
 					// Alterar o path 
 					writer.println(" 					x = 0;"); // x e um counter que determina o tamanho do caminho path
@@ -135,7 +124,7 @@ public class GeneratePromela{
 						writer.printf(" 			:: c%d%d ! costs[electNode], path;",i,pais[j]);
 					}
 					writer.println(" 			fi");
-					writer.println( 	"fi");
+					writer.println("fi");
 				
 					
 					// Caso em que o path e aceite:
