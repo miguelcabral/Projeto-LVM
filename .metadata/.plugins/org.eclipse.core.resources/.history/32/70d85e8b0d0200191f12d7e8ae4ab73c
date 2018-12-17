@@ -1,0 +1,170 @@
+package generate;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Stack;
+import java.util.Vector;
+
+
+
+
+
+public class GeneratePromela{
+	public static void main(String args[]) throws FileNotFoundException, UnsupportedEncodingException {
+	
+		Scanner reader = new Scanner(System.in);  // Reading from System.in
+		System.out.print("Numero de vertices:");
+		int numvertex = reader.nextInt();
+		
+		DGraph G = new DGraph(numvertex); // The first node is always the target
+		Path badPaths = new Path(numvertex);
+		LinkedList<Integer> aux = new LinkedList<Integer>();
+		
+		
+		for(int i=0; i < numvertex; i++) {
+			System.out.printf("O vertice %d tem arestas para os vertices:", i);
+			String edges = reader.next(); // Scans the next token of the input as an int.
+			
+			for(int j=0; j < edges.length(); j++) {
+				if (Character.isDigit(edges.charAt(j))) {
+					G.add_edge(i, Character.getNumericValue(edges.charAt(j)));
+					}
+				}
+			}
+		
+		
+		aux.add(0);
+		for( int k : G.children(0) ) {
+			aux.add(k);
+			printLoops(k, G, badPaths, true, aux); 
+			aux.removeFirstOccurrence(k);
+			}
+		
+		
+		for ( int i = 1; i < badPaths.size(); i++) {
+			System.out.println("Following are all loops in " +i);
+			for( LinkedList<Integer> aux1 : badPaths.get_path(i) ) {
+		         
+	            System.out.println(aux1 + "\n\n"); 
+			}
+		}
+		
+			
+		
+				//once finished
+				reader.close();	
+				//writer.close();	
+		}
+	
+	
+	/**
+ 	* Prints all loops from the vertex s to d of the Graph G 
+ 	* @param s : vertex
+ 	* @param d : vertex 
+ 	* @param numvertex : number of vertex
+ 	* @param G : Graph G
+ 	* @param Path : stores all the paths
+ 	* @param loop : is true if we are looking for a loop
+ 	* @return
+ 	*/	
+    public static void  printLoops(int s, DGraph G, Path badPaths, Boolean loop, LinkedList<Integer> path )  
+    { 
+        if ( (G.children(s)).isEmpty() ) { return ; }
+    	
+    	for( int i : G.children(s)) {
+    		if ( path.contains(i) ) { return ; }
+    		
+    		printAllPaths(i, s, G, badPaths, loop, path);
+    		path.add(i);
+    		printLoops(i, G, badPaths, loop, path);
+    		path.removeFirstOccurrence(i);
+    	}
+    } 
+	
+		/**
+	 	* Prints all paths from the vertex s to d of the Graph G, where s is different from d 
+	 	* @param s : vertex
+	 	* @param d : vertex 
+	 	* @param numvertex : number of vertex
+	 	* @param G : Graph G
+	 	* @param Path : stores all the paths
+	 	* @param loop : is true if we are looking for a loop
+	 	* @return
+	 	*/	
+	    public static void  printAllPaths(int s, int d , DGraph G, Path badPaths, Boolean loop, LinkedList<Integer> path  )  
+	    { 
+	        boolean[] isVisited = new boolean[G.size()];
+	        isVisited[0] = true;
+	        LinkedList<Integer> pathList = new LinkedList<Integer> (); 
+	        //add source to path[] 
+	        pathList.add(s);     
+	        //Call recursive utility 
+	        printAllPathsUtil(s, d, isVisited, pathList, G, badPaths, loop, path); 
+	    } 
+		      
+	      
+	    /**
+	 	* A recursive function to print all paths from 'u' to 'd'.
+	 	* @param u : vertex
+	 	* @param d : vertex
+	 	* @param isVisited : keeps track of the visited vertices in current path
+	 	* @param localPathList : stores vertices in the current path
+	 	* @param G : Graph G 
+	 	* @param Path : stores all the paths 
+	 	* @param loop : is true if we are looking for a loop
+	 	* @return
+	 	*/	
+	    public static void printAllPathsUtil(int u, int d, boolean[] isVisited,
+	    LinkedList<Integer> localPathList, DGraph G, Path badPaths, Boolean loop, LinkedList<Integer> path) { 
+	    
+	    	// Mark the current node 
+	         isVisited[u] = true; 
+	          
+	        if (u == d)  {      
+	            if (!loop) { badPaths.add_path(u, localPathList); }
+	            else {
+	            	LinkedList<Integer> newList = new LinkedList<Integer>(path);
+	            	newList.addAll(localPathList);
+	            	badPaths.add_path(d, newList);
+	            }
+	         // if match found then no need to traverse more till depth 
+	            isVisited[u]= false; 
+	            return ;
+	        } 
+	        // Recur for all the vertices  
+	        // adjacent to current vertex 
+	        for (Integer i : G.children(u))  
+	        { 
+	            if (!isVisited[i]) 
+	            { 
+	                // store current node  in path[] 
+	               localPathList.add(i); 
+	               printAllPathsUtil(i, d, isVisited, localPathList, G, badPaths, loop, path); 
+	               // remove current node  in path[] 
+	               localPathList.remove(i);
+	            } 
+	        }   
+	        // Mark the current node 
+	        isVisited[u] = false;
+	    } 
+	    
+	    
+	    /**
+	 	* Returns all the shifts of a word e.g. abc becomes abc, bca, cab
+	 	* @param s : a word
+	 	* @return all the shifts of a word 
+	 	*/	
+		public static String shift(String s) {
+		    return s.charAt(s.length()-1)+s.substring(0, s.length()-1);
+		}
+		 		
+
+}
+	  

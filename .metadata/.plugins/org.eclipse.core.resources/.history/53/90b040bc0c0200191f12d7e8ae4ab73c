@@ -85,10 +85,10 @@ public class DGraph{
 	
 	
 	/**
-	 * Returns an array with the ids of the children of the node with
+	 * Returns an array with the ids of the childrens of the node with
 	 * node id = nodeID
 	 * @param nodeID
-	 * @return arrays with the children
+	 * @return arrays with the childrens
 	 */
 	public LinkedList<Integer> children(int nodeID){
 		int k = 0;

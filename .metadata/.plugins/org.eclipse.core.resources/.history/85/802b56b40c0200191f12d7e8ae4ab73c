@@ -19,17 +19,9 @@ public class DGraph{
 	}
 	
 	/**
-	 * Returns the number of vertex
-	 *  @return number of vertex
-	 */
-	public int size() { return nodes.size(); }
-	
-	
-	/**
 	 * Adds edge from node id1 to node id2 
 	 * @param id1 : parent node id 
 	 * @param id2 : node id
-	 * @return
 	 */
 	public void add_edge(int id1, int id2) {
 		if( id1 < 0 || id2 < 0 || id1 > this.d || id2 > this.d) {
@@ -85,10 +77,10 @@ public class DGraph{
 	
 	
 	/**
-	 * Returns an array with the ids of the children of the node with
+	 * Returns an array with the ids of the childrens of the node with
 	 * node id = nodeID
 	 * @param nodeID
-	 * @return arrays with the children
+	 * @return arrays with the childrens
 	 */
 	public LinkedList<Integer> children(int nodeID){
 		int k = 0;
@@ -103,7 +95,17 @@ public class DGraph{
 		return r;
 	}
 	
+	/**
+	 * Returns an array with the paths, starting in v, that have loops 
+	 * vertex = v
+	 * @param v 
+	 * @return arrays with the loops
+	 */
+		public void generateLoops(int numvertex){
+			
+		}
 
+	
 	/**
 	 * Prints the graph to the screen
 	 * node id = nodeID
@@ -144,4 +146,21 @@ public class DGraph{
 		return count;
 	}
 
+	// A fazer:
+		// 1. Funcao que calcula todos os possiveis caminhos sem loops desde o target ate ao no que estamos a considerar i.
+		// 2. Continuar esses caminhos com todos os possíveis loops contendo i. - uma funcao
+		// 3. Transposta do grafo (por causa dos canais)
+		// A funcao que usa as anteriores para devolver todos os caminhos que comecam no target e vao ate ao no i (sem loops) e depois fazem um loop contendo i.
+		// (no final tem de se retirar o nó i do final do caminho, porque no BGP o no i recebe esse caminho com excecao dele proprio.)
+		
+		public LinkedList<Integer> AllCyclesContaining (int origem){
+			LinkedList<Integer> lista = new LinkedList<Integer>();
+			return lista;
+		}
+
+		public ArrayList<LinkedList<Integer>> printAllPaths(int i, int i2) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+	
 }
