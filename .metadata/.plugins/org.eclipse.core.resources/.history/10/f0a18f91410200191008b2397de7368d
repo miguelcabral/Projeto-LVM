@@ -51,9 +51,8 @@ public class GeneratePromela{
 				Custos.add(Character.getNumericValue(StringCustos.charAt(j)));
 				}
 			}
-		// Caminhos Maus do grafo:
+		
 		Path badPaths = new Path(numvertex);
-		loops(G, badPaths, true);
 		
 		// Criar o ficheiro em PROMELA
 		PrintWriter writer = new PrintWriter("BGP.pml", "UTF-8");
@@ -131,10 +130,10 @@ public class GeneratePromela{
 						int newcost = reader.nextInt();
 						int oldcost = Custos.get(n);
 						// Verificar o path
-						ArrayList<LinkedList<Integer>> currentPaths = badPaths.get_path(i);
+						ArrayList<LinkedList<Integer>> allPaths = G.printAllPaths(0,i);
 						writer.println(" 	if");
-						for(int p = 0; p < currentPaths.size(); p++) {
-							LinkedList<Integer> pathList = currentPaths.get(p);
+						for(int p = 0; p < allPaths.size(); p++) {
+							LinkedList<Integer> pathList = allPaths.get(p);
 							int pathInt = 0;
 							for(int m = 0; m < pathList.size()-1/* -1 para retirar o ultimo no (o repetido)*/; m++) {
 								pathInt = pathInt + pathList.get(m)*10^m;

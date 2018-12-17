@@ -25,7 +25,7 @@ public class GeneratePromela{
 		
 		DGraph G = new DGraph(numvertex); // The first node is always the target
 		Path badPaths = new Path(numvertex);
-		
+		LinkedList<Integer> aux = new LinkedList<Integer>();
 		
 		
 		for(int i=0; i < numvertex; i++) {
@@ -39,8 +39,22 @@ public class GeneratePromela{
 				}
 			}
 		
-		loops(G, badPaths, true);
 		
+		aux.add(0);
+		for( int k : G.children(0) ) {
+			aux.add(k);
+			printLoops(k, G, badPaths, true, aux); 
+			aux.removeFirstOccurrence(k);
+			}
+		
+		
+		for ( int i = 1; i < badPaths.size(); i++) {
+			System.out.println("Following are all loops in " +i);
+			for( LinkedList<Integer> aux1 : badPaths.get_path(i) ) {
+		         
+	            System.out.println(aux1 + "\n\n"); 
+			}
+		}
 		
 			
 		
@@ -50,39 +64,14 @@ public class GeneratePromela{
 		}
 	
 	
-	
 	/**
- 	* Gets and prints all loops from the vertex s to d of the Graph G 
- 	* @param G : Graph G
- 	* @param badPaths : stores all the bad paths 
- 	* @param loop : is true if we are looking for a loop
- 	* @return
- 	*/	
-    public static void loops(DGraph G, Path badPaths, Boolean loop)  
-    { 
-    	LinkedList<Integer> aux = new LinkedList<Integer>();
-    	aux.add(0);
-		for( int k : G.children(0) ) {
-			aux.add(k);
-			printLoops(k, G, badPaths, true, aux); 
-			aux.removeFirstOccurrence(k);
-			}	
-		
-		for ( int i = 1; i < badPaths.size(); i++) {
-			System.out.println("Following are all loops in " +i);
-			for( LinkedList<Integer> aux1 : badPaths.get_path(i) ) {    System.out.println(aux1 + "\n\n");  }
-		}
-    } 
-	
-	
-	/**
- 	* Algorithm to retrieve all loops from the vertex s to d of the Graph G 
+ 	* Prints all loops from the vertex s to d of the Graph G 
  	* @param s : vertex
+ 	* @param d : vertex 
  	* @param numvertex : number of vertex
  	* @param G : Graph G
- 	* @param badPaths : stores all the bad paths starting in vertex s ( loops in s )
+ 	* @param Path : stores all the paths
  	* @param loop : is true if we are looking for a loop
- 	* @param path : local path
  	* @return
  	*/	
     public static void  printLoops(int s, DGraph G, Path badPaths, Boolean loop, LinkedList<Integer> path )  
@@ -122,13 +111,13 @@ public class GeneratePromela{
 		      
 	      
 	    /**
-	 	* A auxiliary recursive function to print all paths from 'u' to 'd'.
-	 	* @param u : source vertex
-	 	* @param d : destination vertex
+	 	* A recursive function to print all paths from 'u' to 'd'.
+	 	* @param u : vertex
+	 	* @param d : vertex
 	 	* @param isVisited : keeps track of the visited vertices in current path
 	 	* @param localPathList : stores vertices in the current path
 	 	* @param G : Graph G 
-	 	* @param badPaths : stores all the paths 
+	 	* @param Path : stores all the paths 
 	 	* @param loop : is true if we are looking for a loop
 	 	* @return
 	 	*/	
@@ -166,6 +155,15 @@ public class GeneratePromela{
 	        isVisited[u] = false;
 	    } 
 	    
+	    
+	    /**
+	 	* Returns all the shifts of a word e.g. abc becomes abc, bca, cab
+	 	* @param s : a word
+	 	* @return all the shifts of a word 
+	 	*/	
+		public static String shift(String s) {
+		    return s.charAt(s.length()-1)+s.substring(0, s.length()-1);
+		}
 		 		
 
 }

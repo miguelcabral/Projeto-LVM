@@ -11,9 +11,6 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.util.Vector;
 
-import generateTiago.DGraph;
-import generateTiago.Path;
-
 
 public class GeneratePromela{
 	public static void main(String args[]) throws FileNotFoundException, UnsupportedEncodingException {
@@ -51,9 +48,6 @@ public class GeneratePromela{
 				Custos.add(Character.getNumericValue(StringCustos.charAt(j)));
 				}
 			}
-		// Caminhos Maus do grafo:
-		Path badPaths = new Path(numvertex);
-		loops(G, badPaths, true);
 		
 		// Criar o ficheiro em PROMELA
 		PrintWriter writer = new PrintWriter("BGP.pml", "UTF-8");
@@ -131,10 +125,10 @@ public class GeneratePromela{
 						int newcost = reader.nextInt();
 						int oldcost = Custos.get(n);
 						// Verificar o path
-						ArrayList<LinkedList<Integer>> currentPaths = badPaths.get_path(i);
+						ArrayList<LinkedList<Integer>> allPaths = G.printAllPaths(0,i);
 						writer.println(" 	if");
-						for(int p = 0; p < currentPaths.size(); p++) {
-							LinkedList<Integer> pathList = currentPaths.get(p);
+						for(int p = 0; p < allPaths.size(); p++) {
+							LinkedList<Integer> pathList = allPaths.get(p);
 							int pathInt = 0;
 							for(int m = 0; m < pathList.size()-1/* -1 para retirar o ultimo no (o repetido)*/; m++) {
 								pathInt = pathInt + pathList.get(m)*10^m;
@@ -236,122 +230,84 @@ public class GeneratePromela{
 	// FIM
 	
 	
-	// Funcoes para encontrar todos os caminhos problematicos do grafo:
 	
 	
-	/**
- 	* Gets and prints all loops from the vertex s to d of the Graph G 
- 	* @param G : Graph G
- 	* @param badPaths : stores all the bad paths 
- 	* @param loop : is true if we are looking for a loop
- 	* @return
- 	*/	
-    public static void loops(DGraph G, Path badPaths, Boolean loop)  
-    { 
-    	LinkedList<Integer> aux = new LinkedList<Integer>();
-    	aux.add(0);
-		for( int k : G.children(0) ) {
-			aux.add(k);
-			printLoops(k, G, badPaths, true, aux); 
-			aux.removeFirstOccurrence(k);
-			}	
-		
-		for ( int i = 1; i < badPaths.size(); i++) {
-			System.out.println("Following are all loops in " +i);
-			for( LinkedList<Integer> aux1 : badPaths.get_path(i) ) {    System.out.println(aux1 + "\n\n");  }
+	
+	
+	
+	
+	
+	
+	
+	/*	loops = generateLoops(i);
+
+	for ( int t = 0; t < loops.size(); t++) {
+		String aux = String.valueOf(loops.get(t));
+		int [ loops.get(t)).length()] lista;
+	
+		for(int p = 0; p < String.valueOf(loops.get(t)).length(); p++){
+			aux = shift(aux);
+			lista[p] = aux;
+        
 		}
-    } 
-	
-	
-	/**
- 	* Algorithm to retrieve all loops from the vertex s to d of the Graph G 
- 	* @param s : vertex
- 	* @param numvertex : number of vertex
- 	* @param G : Graph G
- 	* @param badPaths : stores all the bad paths starting in vertex s ( loops in s )
- 	* @param loop : is true if we are looking for a loop
- 	* @param path : local path
- 	* @return
- 	*/	
-    public static void  printLoops(int s, DGraph G, Path badPaths, Boolean loop, LinkedList<Integer> path )  
-    { 
-        if ( (G.children(s)).isEmpty() ) { return ; }
-    	
-    	for( int i : G.children(s)) {
-    		if ( path.contains(i) ) { return ; }
-    		
-    		printAllPaths(i, s, G, badPaths, loop, path);
-    		path.add(i);
-    		printLoops(i, G, badPaths, loop, path);
-    		path.removeFirstOccurrence(i);
-    	}
-    } 
-	
+	}*/
+
+
+							
 		/**
-	 	* Prints all paths from the vertex s to d of the Graph G, where s is different from d 
-	 	* @param s : vertex
-	 	* @param d : vertex 
-	 	* @param numvertex : number of vertex
-	 	* @param G : Graph G
-	 	* @param Path : stores all the paths
-	 	* @param loop : is true if we are looking for a loop
-	 	* @return
+	 	* Returns all the shifts of a word e.g. abc becomes abc, bca, cab
+	 	* int s = vertex
+	 	* int V = number of vertex
+	 	* DGraph D = graph G
+	 	* @param s, v, G
+	 	* @return all the shifts of a word 
 	 	*/	
-	    public static void  printAllPaths(int s, int d , DGraph G, Path badPaths, Boolean loop, LinkedList<Integer> path  )  
+		public static String shift(String s) {
+		    return s.charAt(s.length()-1)+s.substring(0, s.length()-1);
+		}
+		 		
+		
+		/**
+		 * Function used by DFS recursive
+		 * int v = vertex
+		 * boolean visited 
+		 * DGraph D = graph G
+		 * @param s, v, G
+		 * @return 
+		 */	
+		// A function used by DFS 
+	    public static void DFSUtil(int s,boolean visited[], String path, DGraph G) 
 	    { 
-	        boolean[] isVisited = new boolean[G.size()];
-	        isVisited[0] = true;
-	        LinkedList<Integer> pathList = new LinkedList<Integer> (); 
-	        //add source to path[] 
-	        pathList.add(s);     
-	        //Call recursive utility 
-	        printAllPathsUtil(s, d, isVisited, pathList, G, badPaths, loop, path); 
+	        // Mark the current node as visited and print it 
+	        visited[s] = true;  
+	        
+	        LinkedList<Integer> childs = G.children(s);
+	        // Recur for all the vertices adjacent to this vertex 
+	        for( int j = 0; j < childs.size(); j++ )
+            { 
+                int n = childs.get(j); 
+                if(!visited[n]) {  DFSUtil(n, visited, String.valueOf(n) + path, G); }
+                else if (path.contains(String.valueOf(n))){ System.out.print("Loop : " + String.valueOf(n) + path + "\n"); }  
+            } 
 	    } 
-		      
-	      
+	  
+	    
 	    /**
-	 	* A auxiliary recursive function to print all paths from 'u' to 'd'.
-	 	* @param u : source vertex
-	 	* @param d : destination vertex
-	 	* @param isVisited : keeps track of the visited vertices in current path
-	 	* @param localPathList : stores vertices in the current path
-	 	* @param G : Graph G 
-	 	* @param badPaths : stores all the paths 
-	 	* @param loop : is true if we are looking for a loop
-	 	* @return
-	 	*/	
-	    public static void printAllPathsUtil(int u, int d, boolean[] isVisited,
-	    LinkedList<Integer> localPathList, DGraph G, Path badPaths, Boolean loop, LinkedList<Integer> path) { 
-	    
-	    	// Mark the current node 
-	         isVisited[u] = true; 
-	          
-	        if (u == d)  {      
-	            if (!loop) { badPaths.add_path(u, localPathList); }
-	            else {
-	            	LinkedList<Integer> newList = new LinkedList<Integer>(path);
-	            	newList.addAll(localPathList);
-	            	badPaths.add_path(d, newList);
-	            }
-	         // if match found then no need to traverse more till depth 
-	            isVisited[u]= false; 
-	            return ;
-	        } 
-	        // Recur for all the vertices  
-	        // adjacent to current vertex 
-	        for (Integer i : G.children(u))  
-	        { 
-	            if (!isVisited[i]) 
-	            { 
-	                // store current node  in path[] 
-	               localPathList.add(i); 
-	               printAllPathsUtil(i, d, isVisited, localPathList, G, badPaths, loop, path); 
-	               // remove current node  in path[] 
-	               localPathList.remove(i);
-	            } 
-	        }   
-	        // Mark the current node 
-	        isVisited[u] = false;
-	    } 
-	    
+		 * DFS recursive
+		 * int s = source vertex
+		 * int numvertex = number of vertex
+		 * DGraph D = graph G
+		 * @param s, numvertex, G
+		 * @return 
+		 */	
+	    // The function to do DFS. It uses recursive DFSUtil() 
+	    public static void DFSrecur(int s, int numvertex, DGraph G) 
+	    { 
+	        // Mark all the vertices as not visited(set as 
+	        // false by default in java) 
+	        boolean visited[] = new boolean[numvertex]; 
+	  
+	        // Call the recursive helper function to print DFS traversal 
+	        DFSUtil(s, visited, String.valueOf(s), G); 
+	    }
 }

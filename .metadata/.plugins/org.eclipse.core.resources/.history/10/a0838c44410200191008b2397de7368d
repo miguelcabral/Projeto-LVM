@@ -166,6 +166,15 @@ public class GeneratePromela{
 	        isVisited[u] = false;
 	    } 
 	    
+	    
+	    /**
+	 	* Returns all the shifts of a word e.g. abc becomes abc, bca, cab
+	 	* @param s : a word
+	 	* @return all the shifts of a word 
+	 	*/	
+		public static String shift(String s) {
+		    return s.charAt(s.length()-1)+s.substring(0, s.length()-1);
+		}
 		 		
 
 }
