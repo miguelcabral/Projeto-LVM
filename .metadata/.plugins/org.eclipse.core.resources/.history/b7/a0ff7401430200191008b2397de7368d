@@ -11,6 +11,8 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.util.Vector;
 
+import generateTiago.DGraph;
+import generateTiago.Path;
 
 
 public class GeneratePromela{

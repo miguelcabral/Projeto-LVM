@@ -108,7 +108,7 @@ public class DGraph{
 	 * Prints the graph to the screen
 	 * node id = nodeID
 	 * @param nodeID
-	 * @return arrays with the children
+	 * @return arrays with the childrens
 	 */
 	public void show() {
 		for(int i = 0; i < this.d; i++) {
@@ -134,7 +134,7 @@ public class DGraph{
 	 * Returns num of edges
 	 * node id = nodeID
 	 * @param nodeID
-	 * @return arrays with the children
+	 * @return arrays with the childrens
 	 */
 	public int numEdges() {
 		int count = 0;
