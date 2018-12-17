@@ -54,6 +54,7 @@ public class GeneratePromela{
 			}
 				Custos.add(num);
 			}
+		System.out.printf("%d %n", Max);
 		// Caminhos Maus do grafo:
 		Path badPaths = new Path(numvertex);
 		loops(G, badPaths, true);

@@ -53,7 +53,18 @@ public class GeneratePromela{
 			Max = num;
 			}
 				Custos.add(num);
+				j = j+1;
+				}
+			else {
+				if (Character.isDigit(StringCustos.charAt(j))) {
+					if(Max < Character.getNumericValue(StringCustos.charAt(j))) {
+						Max = Character.getNumericValue(StringCustos.charAt(j));
+					}
+					Custos.add(Character.getNumericValue(StringCustos.charAt(j)));
+					}
 			}
+			}
+		System.out.printf("%d %n", Max);
 		// Caminhos Maus do grafo:
 		Path badPaths = new Path(numvertex);
 		loops(G, badPaths, true);

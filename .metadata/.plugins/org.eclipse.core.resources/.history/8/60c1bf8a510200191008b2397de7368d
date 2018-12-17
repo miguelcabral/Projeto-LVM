@@ -46,13 +46,22 @@ public class GeneratePromela{
 		String StringCustos = reader.next();
 		LinkedList<Integer> Custos = new LinkedList<Integer>();
 		int Max = Integer.MIN_VALUE;
-		String[] split = StringCustos.split(",");
-		for(int j=0; j < split.length; j++) {
-			int num = Integer.parseInt(split[j]);
-			if(Max < num) {
-			Max = num;
+		for(int j=0; j < StringCustos.length(); j++) {
+			if(Character.toString(StringCustos.charAt(j)).contains("-")) {
+				if(Max < - Character.getNumericValue(StringCustos.charAt(j+1))) {
+					Max = - Character.getNumericValue(StringCustos.charAt(j+1));
+				}
+				Custos.add(- Character.getNumericValue(StringCustos.charAt(j+1)));
+				j = j+1;
+				}
+			else {
+				if (Character.isDigit(StringCustos.charAt(j))) {
+					if(Max < Character.getNumericValue(StringCustos.charAt(j))) {
+						Max = Character.getNumericValue(StringCustos.charAt(j));
+					}
+					Custos.add(Character.getNumericValue(StringCustos.charAt(j)));
+					}
 			}
-				Custos.add(num);
 			}
 		// Caminhos Maus do grafo:
 		Path badPaths = new Path(numvertex);
@@ -90,6 +99,7 @@ public class GeneratePromela{
 			writer.printf("byte state[%d] paths; %n",numvertex);// array of paths 
 			writer.printf("byte state[%d] costs; %n", numvertex); // costs for adjacent nodes
 			// inicializar os custos no valor maximo
+			System.out.printf("%d %n", Max);
 			for(int p = 0; p < numvertex; p++) {
 				writer.printf("costs[%d] = %d; %n", p, Max);
 			}

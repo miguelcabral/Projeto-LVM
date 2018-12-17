@@ -46,14 +46,28 @@ public class GeneratePromela{
 		String StringCustos = reader.next();
 		LinkedList<Integer> Custos = new LinkedList<Integer>();
 		int Max = Integer.MIN_VALUE;
-		String[] split = StringCustos.split(",");
-		for(int j=0; j < split.length; j++) {
-			int num = Integer.parseInt(split[j]);
-			if(Max < num) {
-			Max = num;
+		for(int j=0; j < StringCustos.length(); j++) {
+			String numString = new String();
+			while(!Character.toString(StringCustos.charAt(j)).contains(",")) {
+				
 			}
-				Custos.add(num);
+			if(Character.toString(StringCustos.charAt(j)).contains("-")) {
+				if(Max < - Character.getNumericValue(StringCustos.charAt(j+1))) {
+					Max = - Character.getNumericValue(StringCustos.charAt(j+1));
+				}
+				Custos.add(- Character.getNumericValue(StringCustos.charAt(j+1)));
+				j = j+1;
+				}
+			else {
+				if (Character.isDigit(StringCustos.charAt(j))) {
+					if(Max < Character.getNumericValue(StringCustos.charAt(j))) {
+						Max = Character.getNumericValue(StringCustos.charAt(j));
+					}
+					Custos.add(Character.getNumericValue(StringCustos.charAt(j)));
+					}
 			}
+			}
+		System.out.printf("%d %n", Max);
 		// Caminhos Maus do grafo:
 		Path badPaths = new Path(numvertex);
 		loops(G, badPaths, true);
