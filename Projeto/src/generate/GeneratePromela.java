@@ -53,9 +53,17 @@ public class GeneratePromela{
 		PrintWriter writer = new PrintWriter("BGP.pml", "UTF-8");
 		
 		//For each edge create a channel. Each channel sends/receives a pair with elected cost and path to reach the target.
-				for(int i=0; i < numvertex; i++) {
+		// Ao mesmo tempo, cria-se ja uma string que vai ser usada para especificar a formula ltl
+		String chanWedge = new String();
+		for(int i=0; i < numvertex; i++) {
 					int [] pais = G.parents(i);
 					for(int j=0;j<pais.length;j++) {
+						if(chanWedge.length() == 0) {
+							chanWedge = chanWedge + "empty(c" + i + pais[j] + ")";
+						}
+						else {
+							chanWedge = chanWedge + " /\\ " + "empty(c" + i + pais[j] + ")";
+						}
 						writer.printf("chan c%d%d = [1] of {byte,byte};",i,pais[j]); 
 						// O canal cxy e de x para y, porque ha uma aresta de y para x.
 						// O path x_1 -> ... -> x_n e o numero x_n...x_1.
@@ -66,7 +74,7 @@ public class GeneratePromela{
 			
 		if ( i > 0){
 			// criar os processos dos vertices que nao sao o target
-			writer.printf("active proctype n%d() { ",i);
+			writer.printf("%n active proctype n%d() { ",i);
 			writer.println("byte electNode;");// elected node
 			writer.println("byte x;");// cost received/sent
 			writer.println("byte path;");// path received/sent
@@ -186,10 +194,10 @@ public class GeneratePromela{
 					}				
 				}
 				}
-		writer.println("od");
+		writer.println("od %n");
 			
 		}else {// criar o processo do Target 
-			writer.println("active proctype n0() { ");
+			writer.println("%n active proctype n0() { ");
 			// enviar para todos os nos que sao pais do target
 			int[] pais = G.parents(0);
 			for(int j = 0; j < pais.length; j++) {	
@@ -210,6 +218,8 @@ public class GeneratePromela{
 			}
 				}
 		}
+		// ltl specification of convergence
+		writer.printf("ltl { <> [] ( %d ) }",chanWedge);
 		
 		//once finished
 		reader.close();	
