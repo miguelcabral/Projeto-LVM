@@ -260,6 +260,7 @@ public class GeneratePromela{
 			}	
 		
 		for ( int i = 1; i < badPaths.size(); i++) {
+			System.out.println("Following are all loops in " +i);
 			for( LinkedList<Integer> aux1 : badPaths.get_path(i) ) {    System.out.println(aux1 + "\n\n");  }
 		}
     } 
