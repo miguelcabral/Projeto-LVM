@@ -203,7 +203,7 @@ public class GeneratePromela{
 					}				
 				}
 				}
-		writer.println("od ");
+		writer.println("od %n");
 			
 		}else {// criar o processo do Target 
 			writer.println("active proctype n0() { ");

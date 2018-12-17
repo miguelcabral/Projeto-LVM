@@ -175,7 +175,7 @@ public class GeneratePromela{
 							writer.println( 		"fi");
 						}
 						// Caso em que o path e aceite:
-						writer.println(" 		:: else ->");
+						writer.println(" 		else ->");
 						writer.println(" 		if");
 						writer.printf(" 		:: x == %d -> costs[%d] = %d; %n",oldcost,currentChild,newcost);
 						// Verificar se o minimo do array costs foi alterado
@@ -203,7 +203,7 @@ public class GeneratePromela{
 					}				
 				}
 				}
-		writer.println("od ");
+		writer.println("od %n");
 			
 		}else {// criar o processo do Target 
 			writer.println("active proctype n0() { ");

@@ -1,0 +1,12 @@
+package generate;
+
+import java.io.PrintWriter;
+
+public class Cenas {
+
+	public static void main(String[] args) {
+		PrintWriter writer = new PrintWriter("cenas.pml", "UTF-8");
+
+	}
+
+}

@@ -175,7 +175,7 @@ public class GeneratePromela{
 							writer.println( 		"fi");
 						}
 						// Caso em que o path e aceite:
-						writer.println(" 		:: else ->");
+						writer.println(" 		else ->");
 						writer.println(" 		if");
 						writer.printf(" 		:: x == %d -> costs[%d] = %d; %n",oldcost,currentChild,newcost);
 						// Verificar se o minimo do array costs foi alterado
@@ -188,11 +188,11 @@ public class GeneratePromela{
 						writer.println(" 						:: min == 0 -> break");
 						writer.println(" 						:: min = (min - (min % 10))/10; x = x+1");
 						writer.println(" 					od");
-						writer.printf(" 					path = %d * 10^x + path %n",i);
+						writer.printf(" 					path = %d * 10^x + path",i);
 						writer.println(" 					if");
 						int[] pais = G.parents(i);
 						for(int j =0; j < pais.length; j++) {
-							writer.printf(" 						:: c%d%d ! costs[electNode], path; %n",i,pais[j]);
+							writer.printf(" 						:: c%d%d ! costs[electNode], path;",i,pais[j]);
 						}
 	 					writer.println(" 					fi");
 						writer.println(" 			fi");
@@ -203,10 +203,10 @@ public class GeneratePromela{
 					}				
 				}
 				}
-		writer.println("od ");
+		writer.println("od %n");
 			
 		}else {// criar o processo do Target 
-			writer.println("active proctype n0() { ");
+			writer.println("%n active proctype n0() { ");
 			// enviar para todos os nos que sao pais do target
 			int[] pais = G.parents(0);
 			for(int j = 0; j < pais.length; j++) {	
@@ -223,7 +223,7 @@ public class GeneratePromela{
 				System.out.printf("Os valores possiveis sao: %s %n", possiveis);
 				System.out.println("Insira o custo aqui: ");
 				int cost = reader.nextInt();
-				writer.printf("c0%d ! %d, 0; %n", pais[j],cost);
+				writer.printf("c0%d ! %d, 0;", pais[j],cost);
 			}
 				}
 		}
