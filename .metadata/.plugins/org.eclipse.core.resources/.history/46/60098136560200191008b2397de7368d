@@ -87,8 +87,8 @@ public class GeneratePromela{
 			writer.println("byte electNode;");// elected node
 			writer.println("byte x;");// cost received/sent
 			writer.println("byte path;");// path received/sent
-			writer.printf("byte paths[%d]; %n",numvertex);// array of paths 
-			writer.printf("byte costs[%d]; %n", numvertex); // costs for adjacent nodes
+			writer.printf("byte paths[%d] paths; %n",numvertex);// array of paths 
+			writer.printf("byte costs[%d] costs; %n", numvertex); // costs for adjacent nodes
 			// inicializar os custos no valor maximo
 			for(int p = 0; p < numvertex; p++) {
 				writer.printf("costs[%d] = %d; %n", p, Max);
