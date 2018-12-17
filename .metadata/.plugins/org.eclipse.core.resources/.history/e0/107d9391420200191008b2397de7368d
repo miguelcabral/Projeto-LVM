@@ -25,12 +25,7 @@ public class GeneratePromela{
 		DGraph G = new DGraph(numvertex); // The first node is always the target	 
 		
 		for(int i=0; i < numvertex; i++) {
-			if(i == 0) {
-				System.out.println("O vertice 0 (o Target) tem arestas para outros vertices? (1 para sim e 0 para nao): ");
-			}
-			else {
-				System.out.printf("O vertice %d tem arestas para outros vertices? (1 para sim e 0 para nao): ", i);
-			}
+			System.out.printf("O vertice %d tem arestas para outros vertices? (1 para sim e 0 para nao): ", i);
 			int resposta = reader.nextInt();
 			if(resposta == 1) {
 				System.out.printf("O vertice %d tem arestas para os vertices: ", i);

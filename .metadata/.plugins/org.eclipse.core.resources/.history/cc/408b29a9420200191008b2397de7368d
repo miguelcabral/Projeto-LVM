@@ -31,6 +31,7 @@ public class GeneratePromela{
 			else {
 				System.out.printf("O vertice %d tem arestas para outros vertices? (1 para sim e 0 para nao): ", i);
 			}
+			
 			int resposta = reader.nextInt();
 			if(resposta == 1) {
 				System.out.printf("O vertice %d tem arestas para os vertices: ", i);
