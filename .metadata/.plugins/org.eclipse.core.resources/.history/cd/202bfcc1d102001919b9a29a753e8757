@@ -140,7 +140,7 @@ public class GeneratePromela{
 							LinkedList<Integer> pathList = currentPaths.get(p);
 							int pathInt = 0;
 							for(int m = 0; m < pathList.size()-1/* -1 para retirar o ultimo no (o repetido)*/; m++) {
-								pathInt = pathInt + pathList.get(m)*((int)Math.pow(10,m));
+								pathInt = pathInt + pathList.get(m)*10^m;
 							}
 							writer.printf(" 		:: path == %d -> %n", pathInt);
 							// Caso em que o path nao e aceite:

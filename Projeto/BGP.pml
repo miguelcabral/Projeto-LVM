@@ -28,25 +28,30 @@ do
  			fi
  	:: c21 ? x, path; 
  	if
- 		:: else ->
+ 		:: path == 210 -> 
+if
+ 			:: electNode == 1 -> 
+ 			x = 1;
+ 			min = costs[0];
+ 			do
+ 				:: x >= 3 -> break 
+ 				:: costs[x] < min && x!=1 -> min = costs[x]; electNode = x; x = x+1 
+ 				:: x = x+1
+ 			od
+ 		fi
  		if
- 		:: x == -1 -> costs[2] = 0; 
- 			if
- 				:: costs[electNode] > costs[2] -> electNode = 2; 
+ 			:: electNode != 1 -> path = paths[electNode]; 
  					x = 0;
  					min = path;
  					do
  						:: min == 0 -> break
  						:: min = (min - (min % 10))/10; x = x+1
  					od
- 					path = 1 * 10^x + path 
- 					if
- 						:: c12 ! costs[electNode], path; 
- 					fi
+ 					path = 1 * 10^x + path; 
+ 			if
+ 			:: c12 ! costs[electNode], path 
  			fi
- 		fi
- 	fi
- 	if
+fi
  		:: else ->
  		if
  		:: x == 0 -> costs[2] = 1; 
@@ -66,6 +71,73 @@ do
  		fi
  	fi
  	if
+ 		:: path == 210 -> 
+if
+ 			:: electNode == 1 -> 
+ 			x = 1;
+ 			min = costs[0];
+ 			do
+ 				:: x >= 3 -> break 
+ 				:: costs[x] < min && x!=1 -> min = costs[x]; electNode = x; x = x+1 
+ 				:: x = x+1
+ 			od
+ 		fi
+ 		if
+ 			:: electNode != 1 -> path = paths[electNode]; 
+ 					x = 0;
+ 					min = path;
+ 					do
+ 						:: min == 0 -> break
+ 						:: min = (min - (min % 10))/10; x = x+1
+ 					od
+ 					path = 1 * 10^x + path; 
+ 			if
+ 			:: c12 ! costs[electNode], path 
+ 			fi
+fi
+ 		:: else ->
+ 		if
+ 		:: x == -1 -> costs[2] = 0; 
+ 			if
+ 				:: costs[electNode] > costs[2] -> electNode = 2; 
+ 					x = 0;
+ 					min = path;
+ 					do
+ 						:: min == 0 -> break
+ 						:: min = (min - (min % 10))/10; x = x+1
+ 					od
+ 					path = 1 * 10^x + path 
+ 					if
+ 						:: c12 ! costs[electNode], path; 
+ 					fi
+ 			fi
+ 		fi
+ 	fi
+ 	if
+ 		:: path == 210 -> 
+if
+ 			:: electNode == 1 -> 
+ 			x = 1;
+ 			min = costs[0];
+ 			do
+ 				:: x >= 3 -> break 
+ 				:: costs[x] < min && x!=1 -> min = costs[x]; electNode = x; x = x+1 
+ 				:: x = x+1
+ 			od
+ 		fi
+ 		if
+ 			:: electNode != 1 -> path = paths[electNode]; 
+ 					x = 0;
+ 					min = path;
+ 					do
+ 						:: min == 0 -> break
+ 						:: min = (min - (min % 10))/10; x = x+1
+ 					od
+ 					path = 1 * 10^x + path; 
+ 			if
+ 			:: c12 ! costs[electNode], path 
+ 			fi
+fi
  		:: else ->
  		if
  		:: x == 1 -> costs[2] = -1; 
@@ -108,25 +180,30 @@ do
  			fi
  	:: c12 ? x, path; 
  	if
- 		:: else ->
+ 		:: path == 120 -> 
+if
+ 			:: electNode == 2 -> 
+ 			x = 1;
+ 			min = costs[0];
+ 			do
+ 				:: x >= 3 -> break 
+ 				:: costs[x] < min && x!=2 -> min = costs[x]; electNode = x; x = x+1 
+ 				:: x = x+1
+ 			od
+ 		fi
  		if
- 		:: x == -1 -> costs[1] = 0; 
- 			if
- 				:: costs[electNode] > costs[1] -> electNode = 1; 
+ 			:: electNode != 2 -> path = paths[electNode]; 
  					x = 0;
  					min = path;
  					do
  						:: min == 0 -> break
  						:: min = (min - (min % 10))/10; x = x+1
  					od
- 					path = 2 * 10^x + path 
- 					if
- 						:: c21 ! costs[electNode], path; 
- 					fi
+ 					path = 2 * 10^x + path; 
+ 			if
+ 			:: c21 ! costs[electNode], path 
  			fi
- 		fi
- 	fi
- 	if
+fi
  		:: else ->
  		if
  		:: x == 0 -> costs[1] = 1; 
@@ -146,6 +223,73 @@ do
  		fi
  	fi
  	if
+ 		:: path == 120 -> 
+if
+ 			:: electNode == 2 -> 
+ 			x = 1;
+ 			min = costs[0];
+ 			do
+ 				:: x >= 3 -> break 
+ 				:: costs[x] < min && x!=2 -> min = costs[x]; electNode = x; x = x+1 
+ 				:: x = x+1
+ 			od
+ 		fi
+ 		if
+ 			:: electNode != 2 -> path = paths[electNode]; 
+ 					x = 0;
+ 					min = path;
+ 					do
+ 						:: min == 0 -> break
+ 						:: min = (min - (min % 10))/10; x = x+1
+ 					od
+ 					path = 2 * 10^x + path; 
+ 			if
+ 			:: c21 ! costs[electNode], path 
+ 			fi
+fi
+ 		:: else ->
+ 		if
+ 		:: x == -1 -> costs[1] = 0; 
+ 			if
+ 				:: costs[electNode] > costs[1] -> electNode = 1; 
+ 					x = 0;
+ 					min = path;
+ 					do
+ 						:: min == 0 -> break
+ 						:: min = (min - (min % 10))/10; x = x+1
+ 					od
+ 					path = 2 * 10^x + path 
+ 					if
+ 						:: c21 ! costs[electNode], path; 
+ 					fi
+ 			fi
+ 		fi
+ 	fi
+ 	if
+ 		:: path == 120 -> 
+if
+ 			:: electNode == 2 -> 
+ 			x = 1;
+ 			min = costs[0];
+ 			do
+ 				:: x >= 3 -> break 
+ 				:: costs[x] < min && x!=2 -> min = costs[x]; electNode = x; x = x+1 
+ 				:: x = x+1
+ 			od
+ 		fi
+ 		if
+ 			:: electNode != 2 -> path = paths[electNode]; 
+ 					x = 0;
+ 					min = path;
+ 					do
+ 						:: min == 0 -> break
+ 						:: min = (min - (min % 10))/10; x = x+1
+ 					od
+ 					path = 2 * 10^x + path; 
+ 			if
+ 			:: c21 ! costs[electNode], path 
+ 			fi
+fi
  		:: else ->
  		if
  		:: x == 1 -> costs[1] = -1; 

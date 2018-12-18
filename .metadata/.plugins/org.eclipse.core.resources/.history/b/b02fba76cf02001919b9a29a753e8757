@@ -28,7 +28,7 @@ public class DGraph{
 	 * Returns the transposed graph
 	 *  @return Graph G
 	 */
-	public DGraph transpose() { 
+	public DGraph tranpose() { 
 		DGraph G = new DGraph(this.size());
 		
 		for(int i = 0; i < this.size(); i++) {
