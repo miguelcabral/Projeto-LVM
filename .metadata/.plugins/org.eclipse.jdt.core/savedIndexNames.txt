@@ -12,7 +12,6 @@ INDEX VERSION 1.130+C:\Users\ASUS\Documents\GitHub\Projeto-LVM\.metadata\.plugin
 2161747041.index
 2857209468.index
 1180489742.index
-2502902422.index
 2994552673.index
 3964918290.index
 1607282252.index

@@ -226,7 +226,7 @@ public class GeneratePromela{
 				}
 		}
 		// ltl specification of convergence
-		writer.printf("ltl { <> [] ( %s ) }",chanWedge);
+		writer.printf("ltl p1 { <> [] ( %s ) }",chanWedge);
 		
 		//once finished
 		reader.close();	
