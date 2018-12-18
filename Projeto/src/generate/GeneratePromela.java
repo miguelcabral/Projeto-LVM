@@ -56,7 +56,7 @@ public class GeneratePromela{
 			}
 		// Caminhos Maus do grafo:
 		Path badPaths = new Path(numvertex);
-		loops(G, badPaths, true);
+		loops(G.transpose(), badPaths, true);
 		
 		// Criar o ficheiro em PROMELA
 		PrintWriter writer = new PrintWriter("BGP.pml", "UTF-8");
