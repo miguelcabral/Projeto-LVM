@@ -42,7 +42,7 @@ public class GeneratePromela{
 			}
 			}
 		// Perguntar os valores de custo possiveis (nao tem de ser necessariamente {0,1,...,numvertex})
-		System.out.println("Insira os valores possiveis dos custos dos contratos (Nada superior a 254 nem inferior a 0): ");
+		System.out.println("Insira os valores possiveis dos custos dos contratos: ");
 		String StringCustos = reader.next();
 		LinkedList<Integer> Custos = new LinkedList<Integer>();
 		String[] split = StringCustos.split(",");
