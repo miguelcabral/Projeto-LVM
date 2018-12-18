@@ -68,10 +68,10 @@ public class GeneratePromela{
 					int [] pais = G.parents(i);
 					for(int j=0;j<pais.length;j++) {
 						if(chanWedge.length() == 0) {
-							chanWedge = chanWedge + "empty(c" + i + pais[j] + ")";
+							chanWedge = chanWedge + "len(c" + i + pais[j] + ")==0";
 						}
 						else {
-							chanWedge = chanWedge + " /\\ " + "empty(c" + i + pais[j] + ")";
+							chanWedge = chanWedge + " && len(c" + i + pais[j] + ")==0";
 						}
 						writer.printf("chan c%d%d = [1] of {byte,byte}; %n",i,pais[j]); 
 						// O canal cxy e de x para y, porque ha uma aresta de y para x.
