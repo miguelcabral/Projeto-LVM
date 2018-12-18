@@ -87,7 +87,7 @@ public class GeneratePromela{
 			writer.printf("byte costs[%d]; %n", numvertex); // costs for adjacent nodes
 			// inicializar os custos no valor maximo
 			for(int p = 0; p < numvertex; p++) {
-				writer.printf("costs[%d] = 255; %n", p);
+				writer.printf("costs[%d] = %d; %n", p, Max);
 			}
 			writer.println("byte min;"); // auxiliary variable to determine the minimum of array costs
 			writer.println("do");
