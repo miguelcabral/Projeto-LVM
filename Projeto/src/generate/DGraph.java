@@ -24,6 +24,21 @@ public class DGraph{
 	 */
 	public int size() { return nodes.size(); }
 	
+	/**
+	 * Returns the transposed graph
+	 *  @return Graph G
+	 */
+	public DGraph tranpose() { 
+		DGraph G = new DGraph(this.size());
+		
+		for(int i = 0; i < this.size(); i++) {
+			for( int j : this.children(i)) {
+				G.add_edge(j,i);
+			}
+		}
+		
+		return G;
+	}
 	
 	/**
 	 * Adds edge from node id1 to node id2 
