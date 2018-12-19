@@ -160,7 +160,7 @@ public class GeneratePromela{
 							writer.println(" 						:: min == 0 -> break");
 							writer.println(" 						:: min = (min - (min % 10))/10; x = x*10");
 							writer.println(" 					od");
-							writer.println(" 					path = x + path;");
+							writer.println(" 					path = x + path; %n");
 							// Enviar nao-deterministicamente para um no pai
 							writer.println(" 			if");
 							int[] pais = G.parents(i);
@@ -178,13 +178,13 @@ public class GeneratePromela{
 						writer.println(" 			if");
 						writer.printf(" 				:: costs[electNode] > costs[%d] -> electNode = %d; %n",currentChild,currentChild);
 						//Alterar o path
-						writer.printf(" 					x = %d; %n",i); // x vai sendo multiplicado por 10 (o numero de vezes = tamanho do caminho) - para concatenar o no i a esquerda do caminho.
+						writer.printf(" 					x = %d;",i); // x vai sendo multiplicado por 10 (o numero de vezes = tamanho do caminho) - para concatenar o no i a esquerda do caminho.
 						writer.println(" 					min = path;"); // Aqui min e so uma variavel auxiliar que nada tem a ver com o valor minimo
 						writer.println(" 					do");
 						writer.println(" 						:: min == 0 -> break");
 						writer.println(" 						:: min = (min - (min % 10))/10; x = x*10");
 						writer.println(" 					od");
-						writer.println(" 					path = x + path;");
+						writer.println(" 					path = x + path; %n");
 						writer.println(" 					if");
 						// Enviar nao-deterministicamente para um no pai
 						int[] pais = G.parents(i);

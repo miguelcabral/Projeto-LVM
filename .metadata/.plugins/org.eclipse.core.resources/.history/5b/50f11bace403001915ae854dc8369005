@@ -160,7 +160,7 @@ public class GeneratePromela{
 							writer.println(" 						:: min == 0 -> break");
 							writer.println(" 						:: min = (min - (min % 10))/10; x = x*10");
 							writer.println(" 					od");
-							writer.println(" 					path = x + path;");
+							writer.println(" 					path = x + path; %n");
 							// Enviar nao-deterministicamente para um no pai
 							writer.println(" 			if");
 							int[] pais = G.parents(i);
@@ -184,7 +184,7 @@ public class GeneratePromela{
 						writer.println(" 						:: min == 0 -> break");
 						writer.println(" 						:: min = (min - (min % 10))/10; x = x*10");
 						writer.println(" 					od");
-						writer.println(" 					path = x + path;");
+						writer.println(" 					path = x + path; %n");
 						writer.println(" 					if");
 						// Enviar nao-deterministicamente para um no pai
 						int[] pais = G.parents(i);
