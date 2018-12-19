@@ -69,7 +69,7 @@ public class GeneratePromela{
 						else {
 							chanWedge = chanWedge + " && len(c" + i + pais[j] + ")==0";
 						}
-						writer.printf("chan c%d%d = [1] of {byte,short}; %n",i,pais[j]); 
+						writer.printf("chan c%d%d = [1] of {byte,byte}; %n",i,pais[j]); 
 						// O canal cxy e de x para y, porque ha uma aresta de y para x.
 						// O path x_1 -> ... -> x_n e o numero x_n...x_1.
 						}
@@ -81,15 +81,15 @@ public class GeneratePromela{
 			// criar os processos dos vertices que nao sao o target
 			writer.printf("active proctype n%d() { %n",i);
 			writer.println("byte electNode;");// elected node
-			writer.println("short x;");// cost received/sent and auxiliary variable
+			writer.println("byte x;");// cost received/sent
 			writer.println("short path;");// path received/sent
-			writer.printf("short paths[%d]; %n",numvertex);// array of paths 
+			writer.printf("byte paths[%d]; %n",numvertex);// array of paths 
 			writer.printf("byte costs[%d]; %n", numvertex); // costs for adjacent nodes
 			// inicializar os custos no valor maximo
 			for(int p = 0; p < numvertex; p++) {
 				writer.printf("costs[%d] = 255; %n", p);
 			}
-			writer.println("short min;"); // auxiliary variable to determine the minimum of array costs
+			writer.println("byte min;"); // auxiliary variable to determine the minimum of array costs
 			writer.println("do");
 			// Receber do canal de algum dos vertices filhos de i.
 			LinkedList<Integer> children = G.children(i);
