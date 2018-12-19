@@ -42,29 +42,17 @@ public class GeneratePromela{
 			}
 			}
 		// Perguntar os valores de custo possiveis (nao tem de ser necessariamente {0,1,...,numvertex})
-		System.out.println("Insira os valores possiveis dos custos dos contratos: ");
+		System.out.println("Insira os valores possiveis dos custos dos contratos (Nada superior a 254 nem inferior a 0): ");
 		String StringCustos = reader.next();
 		LinkedList<Integer> Custos = new LinkedList<Integer>();
-		int Max = Integer.MIN_VALUE;
-		for(int j=0; j < StringCustos.length(); j++) {
-			if(Character.toString(StringCustos.charAt(j)) == "-") {
-				if(Max < - Character.getNumericValue(StringCustos.charAt(j+1))) {
-					Max = - Character.getNumericValue(StringCustos.charAt(j+1));
-				}
-				Custos.add(- Character.getNumericValue(StringCustos.charAt(j+1)));
-				}
-			else {
-				if (Character.isDigit(StringCustos.charAt(j))) {
-					if(Max < Character.getNumericValue(StringCustos.charAt(j))) {
-						Max = Character.getNumericValue(StringCustos.charAt(j));
-					}
-					Custos.add(Character.getNumericValue(StringCustos.charAt(j)));
-					}
-			}
+		String[] split = StringCustos.split(",");
+		for(int j=0; j < split.length; j++) {
+			int num = Integer.parseInt(split[j]);
+				Custos.add(num);
 			}
 		// Caminhos Maus do grafo:
 		Path badPaths = new Path(numvertex);
-		loops(G, badPaths, true);
+		loops(G.transpose(), badPaths, true);
 		
 		// Criar o ficheiro em PROMELA
 		PrintWriter writer = new PrintWriter("BGP.pml", "UTF-8");
@@ -76,10 +64,10 @@ public class GeneratePromela{
 					int [] pais = G.parents(i);
 					for(int j=0;j<pais.length;j++) {
 						if(chanWedge.length() == 0) {
-							chanWedge = chanWedge + "empty(c" + i + pais[j] + ")";
+							chanWedge = chanWedge + "len(c" + i + pais[j] + ")==0";
 						}
 						else {
-							chanWedge = chanWedge + " /\\ " + "empty(c" + i + pais[j] + ")";
+							chanWedge = chanWedge + " && len(c" + i + pais[j] + ")==0";
 						}
 						writer.printf("chan c%d%d = [1] of {byte,byte}; %n",i,pais[j]); 
 						// O canal cxy e de x para y, porque ha uma aresta de y para x.
@@ -95,11 +83,11 @@ public class GeneratePromela{
 			writer.println("byte electNode;");// elected node
 			writer.println("byte x;");// cost received/sent
 			writer.println("byte path;");// path received/sent
-			writer.printf("byte state[%d] paths; %n",numvertex);// array of paths 
-			writer.printf("byte state[%d] costs; %n", numvertex); // costs for adjacent nodes
+			writer.printf("byte paths[%d]; %n",numvertex);// array of paths 
+			writer.printf("byte costs[%d]; %n", numvertex); // costs for adjacent nodes
 			// inicializar os custos no valor maximo
 			for(int p = 0; p < numvertex; p++) {
-				writer.printf("costs[%d] = %d; %n", p, Max);
+				writer.printf("costs[%d] = 255; %n", p);
 			}
 			writer.println("byte min;"); // auxiliary variable to determine the minimum of array costs
 			writer.println("do");
@@ -131,7 +119,6 @@ public class GeneratePromela{
 						// Imprimir os custos possiveis (variavel Custos) numa string
 						String possiveis = new String();
 						for(int p = 0; p < Custos.size(); p++) {
-							System.out.printf("%d %n", Custos.get(p))
 							if(p == 0) {
 								possiveis = Integer.toString(Custos.get(p));
 							}else {
@@ -149,7 +136,7 @@ public class GeneratePromela{
 							LinkedList<Integer> pathList = currentPaths.get(p);
 							int pathInt = 0;
 							for(int m = 0; m < pathList.size()-1/* -1 para retirar o ultimo no (o repetido)*/; m++) {
-								pathInt = pathInt + pathList.get(m)*10^m;
+								pathInt = pathInt + pathList.get(m)*((int)Math.pow(10,m));
 							}
 							writer.printf(" 		:: path == %d -> %n", pathInt);
 							// Caso em que o path nao e aceite:
@@ -212,7 +199,8 @@ public class GeneratePromela{
 					}				
 				}
 				}
-		writer.println("od ");
+		writer.println("od");
+		writer.println("}");
 			
 		}else {// criar o processo do Target 
 			writer.println("active proctype n0() { ");
@@ -234,10 +222,11 @@ public class GeneratePromela{
 				int cost = reader.nextInt();
 				writer.printf("c0%d ! %d, 0; %n", pais[j],cost);
 			}
+			writer.println("}");
 				}
 		}
 		// ltl specification of convergence
-		writer.printf("ltl { <> [] ( %s ) }",chanWedge);
+		writer.printf("ltl p1 { <> [] ( %s ) }",chanWedge);
 		
 		//once finished
 		reader.close();	
@@ -267,10 +256,6 @@ public class GeneratePromela{
 			printLoops(k, G, badPaths, true, aux); 
 			aux.removeFirstOccurrence(k);
 			}	
-		
-		for ( int i = 1; i < badPaths.size(); i++) {
-			for( LinkedList<Integer> aux1 : badPaths.get_path(i) ) {    System.out.println(aux1 + "\n\n");  }
-		}
     } 
 	
 	

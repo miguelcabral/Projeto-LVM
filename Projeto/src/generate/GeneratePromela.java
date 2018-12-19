@@ -141,7 +141,7 @@ public class GeneratePromela{
 							writer.printf(" 		:: path == %d -> %n", pathInt);
 							// Caso em que o path nao e aceite:
 							writer.println( 		"if"); // Se ele era o no mais barato entao tem de se ver qual e o mais barato a seguir dele.
-							writer.printf(" 			:: electNode == %d -> %n", i);
+							writer.printf(" 			:: electNode == %d -> %n", currentChild);
 							// determinar um outro 'minimo' - percorrer o array costs
 							writer.println(" 			x = 1;");
 							writer.println(" 			min = costs[0];");
@@ -173,7 +173,7 @@ public class GeneratePromela{
 						// Caso em que o path e aceite:
 						writer.println(" 		:: else ->");
 						writer.println(" 		if");
-						writer.printf(" 		:: x == %d -> costs[%d] = %d; %n",oldcost,currentChild,newcost);
+						writer.printf(" 		:: x == %d -> costs[%d] = %d; paths[%d] = path; %n",oldcost,currentChild,newcost,currentChild);
 						// Verificar se o minimo do array costs foi alterado
 						writer.println(" 			if");
 						writer.printf(" 				:: costs[electNode] > costs[%d] -> electNode = %d; %n",currentChild,currentChild);
